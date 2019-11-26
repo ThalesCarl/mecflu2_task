@@ -8,7 +8,7 @@ Created on Mon Nov 25 21:14:08 2019
 
 from CoolProp.CoolProp import PropsSI
 
-def getGasFractionUsingPressure(fluid,G,P1,P2,x_1):
+def getGasFraction(fluid,G,P1,P2,x_1):
      h_1 =       PropsSI('H','P',P1,'Q',x_1,fluid)
      h_liq_1   = PropsSI('H','P',P1,'Q',0.0,fluid)
      h_vap_1   = PropsSI('H','P',P1,'Q',1.0,fluid)

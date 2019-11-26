@@ -21,7 +21,7 @@ massFlow = 0.010 #kg/h
 
 A = math.pi * D * D * 0.25
 G = massFlow / A
-N = 350
+N = 35
 
 P_in  = PropsSI('P','T',T_in ,'Q',0,fluid)
 P_out = PropsSI('P','T',T_out,'Q',0,fluid) 
@@ -32,12 +32,16 @@ deltaT = (T_out - T_in)/N
 T_1 = T_in
 x_1 = 0
 L_final = 0
+
+
+deltaLArray = []
 for i in range(N):
     T_2 = T_1 + deltaT
+    
     P_1 = PropsSI('P','T',T_1 ,'Q',0,fluid)
     P_2 = PropsSI('P','T',T_2 ,'Q',0,fluid)
     
-    x_2   = getGasFractionUsingPressure(fluid,G,P_1,P_2,x_1)    
+    x_2   = getGasFraction(fluid,G,P_1,P_2,x_1)    
     
     rho_1 = getRho(x_1,fluid,P_1)
     rho_2 = getRho(x_2,fluid,P_2)
@@ -50,15 +54,14 @@ for i in range(N):
     Re_1 = (rho_1*V_1*D)/mu_1
     Re_2 = (rho_2*V_2*D)/mu_2
     
-    f_1  = 0.3316/((Re_1)**0.25)
-    f_2  = 0.3316/((Re_2)**0.25)
+    f_1  = 0.333/((Re_1)**0.25)
+    f_2  = 0.333/((Re_2)**0.25)
     
     f_m = 0.5 * (f_1 + f_2)
     V_m = 0.5 * (V_1 + V_2)
     
     deltaL = (P_1 - P_2 + G*(V_1-V_2))*D/(0.5*f_m*G*V_m)
-    
-    
+    deltaLArray.append(deltaL)
     
     x_1 = x_2
     T_1 = T_2
